@@ -1,0 +1,19 @@
+﻿@model IQueryable<AHCar.Models.ProductCategory>
+@{
+    ViewBag.Title = "商品類別";
+}
+
+<h2>商品類別</h2>
+<div class="row">
+    @foreach (var item in Model)
+    {
+        <div class="col-xs-6 col-lg-4">
+            <h2>@item.CategoryName</h2>
+            <p>@item.CategoryDescription</p>
+            <p>
+                @Html.ActionLink("查看相關商品", "Index", "Shop", new { CategoryID = item.CategoryID }, new { @class = "btn btn-default", @role = "button" })
+            </p>
+        </div><!--/.col-xs-6.col-lg-4-->
+    }
+</div><!--/row-->
+

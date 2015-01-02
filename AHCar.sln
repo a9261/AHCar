@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.21005.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHCar", "AHCar\AHCar.csproj", "{DC91F03B-3E99-4BB9-8262-E6871472D6AB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AHCar.Tests", "AHCar.Tests\AHCar.Tests.csproj", "{9735C155-EA29-4DC9-B016-0EED700CF5B6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{DC91F03B-3E99-4BB9-8262-E6871472D6AB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC91F03B-3E99-4BB9-8262-E6871472D6AB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC91F03B-3E99-4BB9-8262-E6871472D6AB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC91F03B-3E99-4BB9-8262-E6871472D6AB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9735C155-EA29-4DC9-B016-0EED700CF5B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9735C155-EA29-4DC9-B016-0EED700CF5B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9735C155-EA29-4DC9-B016-0EED700CF5B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9735C155-EA29-4DC9-B016-0EED700CF5B6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal

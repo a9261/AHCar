@@ -1,0 +1,61 @@
+﻿@model List<AHCar.Models.Product>
+@{
+    ViewBag.Title = "Home Page";
+}
+@section css{
+    <style type="text/css">
+        #Link > a:hover {
+            z-index: 2;
+            color: #ffffff;
+            background-color: #428bca;
+            border-color: #428bca;
+        }
+    </style>
+}
+@section scripts{
+    <script type="text/javascript">
+        $(function(){
+            
+            
+
+        });
+    </script>
+}
+<div class="container">
+    <div class="row row-offcanvas row-offcanvas-right">
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+            <div id="Link" class="list-group">
+                @Html.ActionLink("所有商品", "Index", "Shop",null,new { @class="list-group-item" })
+                @Html.ActionLink("商品分類", "ShowCategory", "Shop", null, new { @class = "list-group-item" })
+            </div>
+        </div><!--/.sidebar-offcanvas-->
+        <div class="col-xs-12 col-sm-9">
+            <div class="jumbotron">
+                <h1>Welcome!! 
+                @if (User.Identity.IsAuthenticated)
+                {
+                    <text>@User.Identity.Name</text>
+                }
+                else
+                {
+                    <text>遊客!</text>
+                }
+                </h1>
+                <p>This is Aaron Auction House , we sell a world !!!</p>
+            </div>
+            <div class="row">
+               @foreach (var item in Model)
+               {
+                    <div class="col-xs-6 col-lg-4">
+                    <h2>@item.ProductName</h2>
+                    <p>@item.ProductDescription</p>
+                    <p>
+                        @Html.ActionLink("查看詳情", "ShowDetail", "Shop", null, new { @class = "btn btn-default", @role = "button" })
+                    </p>
+                    </div><!--/.col-xs-6.col-lg-4-->
+               }
+            </div><!--/row-->
+        </div><!--/.col-xs-12.col-sm-9-->
+    </div><!--/row-->
+    <hr>
+</div><!--/.container-->
