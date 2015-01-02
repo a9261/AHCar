@@ -20,7 +20,7 @@ namespace AHCar.Controllers
                     orderby item.ProductID
                     select item
                     ).Take(6).ToList();
-
+               
                 return View(result);
             }
             

@@ -45,6 +45,7 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -195,6 +196,7 @@
     <Compile Include="Models\OrderDetail.cs">
       <DependentUpon>AHShopping.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Original\msg.cs" />
     <Compile Include="Models\Original\ShopItem.cs" />
     <Compile Include="Models\Original\UserInfo.cs" />
     <Compile Include="Models\Original\UserShopCar.cs" />

@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using AHCar.Models.Interface;
 using AHCar.Models.Repositiry;
 using AHCar.Models;
+using AHCar.Models.Original;
+using Newtonsoft.Json;
 namespace AHCar.Controllers
 {
     public class ShopController : BaseController
@@ -60,16 +62,66 @@ namespace AHCar.Controllers
             
         }
         //加入購物車
-         
         [HttpPost]
-        public JsonResult AddCar()
+        public JsonResult AddCar(ShopItem item)
         {
-            return Json("",JsonRequestBehavior.DenyGet);
+            //2015.1.2
+            //TODO:將相關頁面 建立對應JSON物件，傳至購物車
+            UserShopCar userCar = null;
+            msg m = new msg();
+            if (Session["Car"] == null)
+            {
+               userCar =  new UserShopCar();
+               userCar.Userinfo.UserID = User.Identity.IsAuthenticated == true ? User.Identity.Name : "非會員";
+               Session["Car"] = userCar;
+            }
+            else
+            {
+                userCar = (UserShopCar)Session["Car"];
+            }
+            userCar.Add(item);
+            m.errorCode = msg.msgCode.sucess;
+            return Json(JsonConvert.SerializeObject(m), JsonRequestBehavior.DenyGet);
+        }
+        [HttpPost]
+        public JsonResult RemoveCar(int ProductId)
+        {
+            //2015.1.2
+            //TODO:將相關頁面 對應ProductID，傳至購物車
+             msg m = new msg();
+            if (Session["Car"] == null)
+            {
+                m.errorCode=msg.msgCode.error;
+                return Json(JsonConvert.SerializeObject(m), JsonRequestBehavior.DenyGet);
+            }
+            else
+            {
+                 UserShopCar userCar = (UserShopCar)Session["Car"];
+                 m.BeforCount = userCar.GetAllItems().Count;
+                 userCar.Remove(ProductId);
+                 m.AfterCount = userCar.GetAllItems().Count;
+            }
+            m.errorCode = msg.msgCode.sucess;
+           
+            return Json(JsonConvert.SerializeObject(m), JsonRequestBehavior.DenyGet);
         }
         //顯示購物車內容
         public ActionResult ShowCar()
         {
-            return View();
+            UserShopCar userCar = null;
+            if (Session["Car"] == null)
+            {
+                userCar = new UserShopCar();
+                userCar.Userinfo.UserID = User.Identity.IsAuthenticated == true ? User.Identity.Name : "非會員";
+                Session["Car"] = userCar;
+            }
+            else
+            {
+                userCar = (UserShopCar)Session["Car"];
+            }
+            //模擬裡面有一筆資料
+            userCar.Add(new ShopItem { ProductID = 0, ProductName = "金色大鉛筆", Price = 999, Amount = 10 });
+            return View(userCar.GetAllItems());
         }
 
 	}

@@ -10,7 +10,6 @@ namespace AHCar.Models.Original
         public string UserName { get; set; }
         public string UserAddress { get; set; }
         public string UserPhone { get; set; }
-        
-
+        public string UserID { get; set; }
     }
 }

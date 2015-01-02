@@ -1,7 +1,82 @@
-﻿
+﻿@model List<AHCar.Models.Original.ShopItem>
 @{
     ViewBag.Title = "ShowCar";
 }
+@section css{
+    <style type="text/css">
+        .mouseMove {
+        }
 
-<h2>ShowCar</h2>
+        .ShowCarbtn:hover {
+            color: #ffffff;
+            background-color: #428bca;
+            border-color: #357ebd;
+          
+        }
+    </style>
+}
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+            $(".ShowCarbtn").click(function (e) {
+    
+                var ProductID = $(this).parent().find("input").val();
+                //TR
+                var node =$(this).parent().parent();
+                removeItem(ProductID,node);
 
+            });
+        });
+        function removeItem(ProductID,node) {
+           
+            $.ajax({
+                url: "/Shop/RemoveCar",
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: "ProductId="+ProductID,
+                success: function (e) {
+                    console.log("OK");
+                    console.log(e);
+                    var targetTR = $(node);
+                    targetTR.remove();
+                },
+                error: function (e) {
+                    console.log("Error");
+                }
+            });
+        }
+    </script>
+}
+<h2>我的購物車</h2>
+<table class="table table-hover" data-toggle="table">
+    <thead>
+        <tr>
+            <th data-field="name">商品名稱</th>
+            <th data-field="price">單價</th>
+            <th data-field="amount">數量</th>
+            <th data-field="total">小計</th>
+            <th data-field="action">動作</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            int Total = item.Amount * item.Price;
+            <tr>
+                <td>@item.ProductName</td>
+                <td>@item.Price</td>
+                <td>@item.Amount</td>
+                <td>$@Total</td>
+                <td>
+                    <button type="button" class="btn btn-default ShowCarbtn">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+                    <input type="hidden" value="@item.ProductID"/>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
