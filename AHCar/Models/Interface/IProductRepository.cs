@@ -14,7 +14,7 @@ namespace AHCar.Models.Interface
 
         Product Get(int ProductID);
         IQueryable<Product> GetAll();
-        IQueryable<Product> GetAllCategory(int CateogryID)
+        IQueryable<Product> GetAllCategory(int CateogryID);
         void SaveChanges();
     }
 }

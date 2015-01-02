@@ -14,8 +14,10 @@ namespace AHCar.Controllers
         //GET : /Shop/1
         public ActionResult Index(int CategoryID=0)
         {
+            
             IQueryable<Models.Product> productItems;
             IProductRepository rep = new ProductRepository();
+           
             if (CategoryID != 0)
             {
                 productItems=rep.GetAllCategory(CategoryID);
@@ -24,6 +26,7 @@ namespace AHCar.Controllers
             {
                 productItems = rep.GetAll();
             }
+            TempData["Category"] = CategoryID == 0 ? "所有" : productItems.FirstOrDefault().ProductCategory.CategoryName;
             return View(productItems);
         }
         //顯示所有商品類別
