@@ -1,4 +1,4 @@
-﻿
+﻿@model AHCar.Models.PandCViewModel
 @{
     ViewBag.Title = "Index";
 }
@@ -7,4 +7,29 @@
     @{<text>@TempData["Category"]</text>}
     商品瀏覽
 </h2>
-
+<div class="row row-offcanvas row-offcanvas-right">
+    <h2>@{@TempData["Message"]}</h2>
+    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+        <div id="Link" class="list-group">
+            @Html.ActionLink("所有商品", "Index", "Shop", null, new { @class = "list-group-item" })
+            @foreach (var item in Model.Cateogrys)
+            {
+                @Html.ActionLink(item.CategoryName, "Index", "Shop", new { CategoryID=item.CategoryID }, new { @class = "list-group-item" })
+            }
+        </div>
+    </div><!--/.sidebar-offcanvas-->
+    <div class="col-xs-12 col-sm-9">
+        <div class="row">
+            @foreach (var item in Model.Producs)
+            {
+                <div class="col-xs-6 col-lg-4">
+                    <h2>@item.ProductName ($@item.Price)</h2>
+                    <p>@item.ProductDescription</p>
+                    <p>
+                        @Html.ActionLink("查看詳情", "ShowDetail", "Shop", new { ProductID =item.ProductID }, new { @class = "btn btn-default", @role = "button" })
+                    </p>
+                </div><!--/.col-xs-6.col-lg-4-->
+            }
+        </div><!--/row-->
+    </div>
+</div>

@@ -17,7 +17,7 @@ namespace AHCar.Models
         public Product()
         {
             this.isUse = true;
-            this.Orders = new HashSet<Order>();
+            this.OrderDetails = new HashSet<OrderDetail>();
         }
     
         public int ProductID { get; set; }
@@ -27,7 +27,7 @@ namespace AHCar.Models
         public int Price { get; set; }
         public bool isUse { get; set; }
     
-        public virtual ICollection<Order> Orders { get; set; }
         public virtual ProductCategory ProductCategory { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

@@ -185,12 +185,21 @@
       <DependentUpon>AHShopping.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\Interface\IOrderdetailRepository.cs" />
     <Compile Include="Models\Interface\IOrderRepository.cs" />
     <Compile Include="Models\Interface\IProductRepository.cs" />
     <Compile Include="Models\Interface\IProductCateogryRepository.cs" />
     <Compile Include="Models\Order.cs">
       <DependentUpon>AHShopping.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\OrderDetail.cs">
+      <DependentUpon>AHShopping.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Original\ShopItem.cs" />
+    <Compile Include="Models\Original\UserInfo.cs" />
+    <Compile Include="Models\Original\UserShopCar.cs" />
+    <Compile Include="Models\Repositiry\OrderdetailRepository.cs" />
+    <Compile Include="Models\ViewModels\PandCViewModel.cs" />
     <Compile Include="Models\Product.cs">
       <DependentUpon>AHShopping.tt</DependentUpon>
     </Compile>
@@ -277,9 +286,7 @@
     <Content Include="Views\Shop\ShowCar.cshtml" />
     <Content Include="Views\ProductMange\CreateProduct.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\ViewModel\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />

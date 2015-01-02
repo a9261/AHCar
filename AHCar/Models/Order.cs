@@ -14,15 +14,21 @@ namespace AHCar.Models
     
     public partial class Order
     {
+        public Order()
+        {
+            this.OrderDetails = new HashSet<OrderDetail>();
+        }
+    
         public int OrderId { get; set; }
         public string UserID { get; set; }
-        public int ProductID { get; set; }
-        public int Amount { get; set; }
-        public int Price { get; set; }
         public int Total { get; set; }
         public System.DateTime OrderDate { get; set; }
         public bool isPay { get; set; }
+        public string UserName { get; set; }
+        public string UserAddress { get; set; }
+        public string UserPhone { get; set; }
+        public double Discount { get; set; }
     
-        public virtual Product Product { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

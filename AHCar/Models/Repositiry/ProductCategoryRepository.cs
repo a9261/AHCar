@@ -71,7 +71,7 @@ namespace AHCar.Models.Repositiry
         public void Dispose()
         {
             db.Dispose();
-            System.IO.File.AppendAllText(@"C:\Bugs\Bugs.txt", "This Dispose is run by "+ this.GetType().Name + Environment.NewLine);
+            System.IO.File.AppendAllText(@"C:\Bugs\Bugs.txt", "This Dispose is run by " + this.GetType().Name + Environment.NewLine);
             GC.SuppressFinalize(this);
         }
        
