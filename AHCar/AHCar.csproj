@@ -201,7 +201,6 @@
     <Compile Include="Models\Original\UserInfo.cs" />
     <Compile Include="Models\Original\UserShopCar.cs" />
     <Compile Include="Models\Repositiry\OrderdetailRepository.cs" />
-    <Compile Include="Models\ViewModels\CARandORDERViewModel.cs" />
     <Compile Include="Models\ViewModels\PandCViewModel.cs" />
     <Compile Include="Models\Product.cs">
       <DependentUpon>AHShopping.tt</DependentUpon>
@@ -305,8 +304,8 @@
     <Content Include="Views\Shop\ShowCar.cshtml" />
     <Content Include="Views\ProductMange\CreateProduct.cshtml" />
     <Content Include="Views\Shared\_AddItemScriptPartial.cshtml" />
-    <Content Include="Views\Shop\ShowPay.cshtml" />
     <Content Include="Views\Shop\Show404.cshtml" />
+    <Content Include="Views\Shop\ShowPay.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

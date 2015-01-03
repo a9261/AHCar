@@ -5,10 +5,10 @@ using System.Web;
 using System.Web.Mvc;
 using AHCar.Models.Interface;
 using AHCar.Models.Repositiry;
-using AHCar.Models;
-using AHCar.Models.Original;
 using AHCar.Models.ViewModels;
+using AHCar.Models.Original;
 using Newtonsoft.Json;
+using AHCar.Models;
 namespace AHCar.Controllers
 {
     public class ShopController : BaseController
@@ -124,34 +124,29 @@ namespace AHCar.Controllers
                 userCar = (UserShopCar)Session["Car"];
             }
             //模擬裡面有一筆測試資料
-            userCar.Add(new ShopItem { ProductID = 0, ProductName = "金色大鉛筆", Price = 999, Amount = 10 });
-            return View(userCar.GetAllItems());
+            // userCar.Add(new ShopItem { ProductID = 0, ProductName = "金色大鉛筆", Price = 999, Amount = 10 });
+            return View(userCar);
         }
         //顯示結帳頁面
         public ActionResult ShowPay(int index=0)
         {
             if(Session["Car"] != null){
-                CARandORDERViewModel viewModel = new CARandORDERViewModel();
-                viewModel.UserShopCar = (UserShopCar)Session["Car"];
-                return View(viewModel);
+                return View();
             }else{
-
                 return RedirectToAction("Show404");
             }
         }
         [HttpPost]
         //結帳付款
-        public ActionResult ShowPay()
+        public ActionResult ShowPay(Order orders)
         {
             if (Session["Car"] != null)
             {
-                CARandORDERViewModel viewModel = new CARandORDERViewModel();
-                viewModel.UserShopCar = (UserShopCar)Session["Car"];
+
                 return View();
             }
             else
             {
-
                 return RedirectToAction("Show404");
             }
         }

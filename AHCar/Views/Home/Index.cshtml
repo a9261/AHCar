@@ -50,7 +50,7 @@
                     <h2>@item.ProductName</h2>
                     <p>@item.ProductDescription</p>
                     <p>
-                        @Html.ActionLink("查看詳情", "ShowDetail", "Shop", null, new { @class = "btn btn-default", @role = "button" })
+                        @Html.ActionLink("查看詳情", "ShowDetail", "Shop", new { ProductID=item.ProductID }, new { @class = "btn btn-default", @role = "button" })
                     </p>
                     </div><!--/.col-xs-6.col-lg-4-->
                }

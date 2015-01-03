@@ -1,4 +1,4 @@
-﻿@model List<AHCar.Models.Original.ShopItem>
+﻿@model AHCar.Models.Original.UserShopCar
 @{
     ViewBag.Title = "ShowCar";
 }
@@ -100,12 +100,22 @@
         //更新商品購買資訊
         function updateItem(node) {
             //單價
-            var Price = $(node).parent().parent().find('.Price').html();
+            var Price = $(node).parent().parent().find('[name="Price"]').val();
             //數量
             var Amount = $(node).val();
             //總計
             var Total = Price * Amount;
-            $(node).parent().parent().find('.Total').html(Total);
+            //顯示小計
+            $(node).parent().parent().find('.Total').html('$'+Total);
+            $(node).parent().parent().find('[name="Total"]').val(Total);
+            //加總小計
+           
+            var sum = 0;
+            $('.CarBody').children().each(function (itemNode) {
+                var t = $(this).find('[name="Total"]').val();
+                sum = sum + parseInt(t,10);
+            })
+            $('.Sum').html('$' + sum);
         }
         //新增商品
         function AddCar(item) {
@@ -163,12 +173,12 @@
         </tr>
     </thead>
     <tbody class="CarBody">
-        @foreach (var item in Model)
+        @foreach (var item in Model.GetAllItems())
         {
             int Total = item.Amount * item.Price;
             <tr>
                 <td>@item.ProductName</td>
-                <td class="Price">@item.Price</td>
+                <td>@item.Price</td>
                 <td><input class="Amount" type="number" min="1" max="1000" value="@item.Amount" /></td>
                 <td class="Total">$@Total</td>
                 <td>
@@ -178,15 +188,25 @@
                     <input name="ProductID" type="hidden" value="@item.ProductID" />
                     <input name="ProductName" type="hidden" value="@item.ProductName" />
                     <input name="Price" type="hidden" value="@item.Price" />
+                    <input name="Total" type="hidden" value="@Total"/>
                 </td>
             </tr>
         }
     </tbody>
+    @if (Model.GetAllItems().Count <= 0)
+    {
+        <tr>
+            <td colspan="5" align="center">唉呀呀！購物車空空如也！要不要趁特價多買些呢？</td>
+        </tr>
+    }
     <tr>
         <td></td>
         <td></td>
         <td></td>
-        <td></td>
+        <td class="Sum">
+            @if (Model.GetAllItems().Count >= 0)
+            {<text>總金額</text>@Model.Total}
+        </td>
         <td>
             <button type="button" class="btn btn-default ShowUpdatebtn animated shake">
                 <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
