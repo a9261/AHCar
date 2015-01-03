@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using AHCar.Models.Original;
+<!DOCTYPE html>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -10,7 +11,7 @@
 
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
- 
+    
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -29,7 +30,31 @@
                     <li>@Html.ActionLink("商品分類", "ShowCategory", "Shop")</li>
                     <li>@Html.ActionLink("關於", "About", "Home")</li>
                     <li>@Html.ActionLink("連絡方式", "Contact", "Home")</li>
+                    <li>
+                        <a href="/Shop/ShowCar">
+                            我的購物車
+                            @{
+                                if (Session["Car"] != null)
+                                {
+                                    UserShopCar userCar = (UserShopCar)Session["Car"];
+                                    if (userCar.GetAllItems().Count > 0)
+                                    {
+                                        <span class="badge userCar">@userCar.GetAllItems().Count</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge userCar">0</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="badge userCar">0</span>
+                                }
+                            }
+                        </a>
+                    </li>
                 </ul>
+              
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

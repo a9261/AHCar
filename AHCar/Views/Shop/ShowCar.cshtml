@@ -64,6 +64,7 @@
                 removeItem(PID);
                 AddCar(Item);
             });
+            ShowNoty();
         }
         function ShowNoty(msg) {
             var Showmsg = msg || '購物車商品，更新成功!! :) ';
@@ -152,6 +153,7 @@
                     if(removeable){
                         var targetTR = $(node);
                         targetTR.remove();
+                        updateCarNum();
                     }
                 },
                 error: function (e) {
@@ -159,6 +161,7 @@
                 }
             });
         }
+         @Html.Partial("_CarNumScriptPartial")
     </script>
 }
 <h2>我的購物車</h2>

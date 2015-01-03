@@ -14,6 +14,10 @@ namespace AHCar.Models.Original
         public int BeforCount { get; set; }
          [JsonProperty]
          public int AfterCount { get; set; }
+         public msg()
+         {
+             BeforCount = 0; AfterCount = 0; errorCode = msgCode.error;
+         }
         /// <summary>
         /// error =666 , sucess=777
         /// </summary>

@@ -9,6 +9,7 @@ using AHCar.Models.ViewModels;
 using AHCar.Models.Original;
 using Newtonsoft.Json;
 using AHCar.Models;
+using Microsoft.AspNet.Identity;
 namespace AHCar.Controllers
 {
     public class ShopController : BaseController
@@ -62,6 +63,23 @@ namespace AHCar.Controllers
             return View(ViewModel);
             
         }
+        //取得目前商品品項數
+        [HttpPost]
+        public JsonResult getProductNum()
+        {
+            msg m = new msg();
+            if (Session["Car"] != null)
+            {
+                UserShopCar userCar = (UserShopCar)Session["Car"];
+                m.errorCode = msg.msgCode.sucess;
+                m.AfterCount = userCar.GetAllItems().Count;
+                return Json(JsonConvert.SerializeObject(m), JsonRequestBehavior.DenyGet);
+            }
+            else
+            {
+                return Json(JsonConvert.SerializeObject(m), JsonRequestBehavior.DenyGet);
+            }
+        }
         //加入購物車
         [HttpPost]
         public JsonResult AddCar(ShopItem item)
@@ -73,7 +91,7 @@ namespace AHCar.Controllers
             if (Session["Car"] == null)
             {
                userCar =  new UserShopCar();
-               userCar.Userinfo.UserID = User.Identity.IsAuthenticated == true ? User.Identity.Name : "非會員";
+               userCar.Userinfo.UserID = "非會員";
                Session["Car"] = userCar;
             }
             else
@@ -142,8 +160,18 @@ namespace AHCar.Controllers
         {
             if (Session["Car"] != null)
             {
-
-                return View();
+                //設定完整的訂購人資訊
+                UserShopCar userCar = (UserShopCar)Session["Car"];
+                if (User.Identity.IsAuthenticated){
+                   userCar.Userinfo.UserID = User.Identity.GetUserId();
+                }
+                userCar.Userinfo.UserName = orders.UserName;
+                userCar.Userinfo.UserPhone = orders.UserPhone;
+                userCar.Userinfo.UserAddress = orders.UserAddress;
+                //確認有商品資料再寫入訂單
+                if(userCar.GetAllItems().Count>0)
+                    userCar.SendOrder();    
+                return RedirectToAction("ShowEnd");
             }
             else
             {
@@ -151,6 +179,10 @@ namespace AHCar.Controllers
             }
         }
         public ActionResult Show404()
+        {
+            return View();
+        }
+        public ActionResult ShowEnd()
         {
             return View();
         }

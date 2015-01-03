@@ -26,8 +26,12 @@ namespace AHCar.Models.Original
         /// <param name="item">商品</param>
         public void Add(ShopItem item)
         {
-            ShopItems.Add(item);
-            UpdateTotal();
+            //判斷有這項商品
+            IProductRepository pRep = new ProductRepository();
+            if (pRep.Get(item.ProductID) != default(Product)) { 
+                ShopItems.Add(item);
+                UpdateTotal();
+            }
         }
         /// <summary>
         /// 從購物車移除商品
@@ -69,6 +73,7 @@ namespace AHCar.Models.Original
                 oHead.UserPhone = Userinfo.UserPhone;
                 oHead.UserID = Userinfo.UserID;
                 oHead.Total = Total;
+                oHead.OrderDate = DateTime.Now;
                 IOrderRepository oRep = new OrderRepository();
                 oRep.Create(oHead);
                 //新增訂單表身

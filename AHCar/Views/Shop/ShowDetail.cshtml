@@ -49,6 +49,7 @@
             });
         });
         function AddCar(item) {
+            
             $.ajax({
                 url: "/Shop/AddCar",
                 type: "POST",
@@ -59,14 +60,32 @@
                 data: JSON.stringify(item),
                 success: function (e) {
                     console.log("OK");
-                    $('.showAddBtn').addClass("animated fadeOutUp")
-                    .addClass('animated fadeInUp');
+                    updateCarNum(); //方法已包進_CarNumScriptPartial
+                    $('.showAddBtn').one('webkitAnimationEnd mozAnimationEnd MSAnimationEnd oanimationend animationend', function () {
+                        $(this).removeClass("animated tada");
+                    });
+                    $('.showAddBtn').addClass("animated tada");
                 },
                 error: function (e) {
                     console.log("Error");
                 }
             });
         }
+        @Html.Partial("_CarNumScriptPartial")
+        //function updateCarNum(s) {
+        //    var num = parseInt($('.userCar').html(), 10);
+        //    if (typeof (s) != 'undefined') {
+        //        if (s.toLowerCase() === 'plus') {
+        //            num = num + 1;
+        //        }
+        //        else if (s.toLowerCase() === 'minus')
+        //        {
+        //            if(num!=0)
+        //                num = num - 1;
+        //        }
+        //        $('.userCar').html(num);
+        //    }
+        //}
     </script>
 }
     <h2>商品內容</h2>

@@ -190,6 +190,7 @@
     <Compile Include="Models\Interface\IOrderRepository.cs" />
     <Compile Include="Models\Interface\IProductRepository.cs" />
     <Compile Include="Models\Interface\IProductCateogryRepository.cs" />
+    <Compile Include="Models\Metadata.cs" />
     <Compile Include="Models\Order.cs">
       <DependentUpon>AHShopping.tt</DependentUpon>
     </Compile>
@@ -200,6 +201,7 @@
     <Compile Include="Models\Original\ShopItem.cs" />
     <Compile Include="Models\Original\UserInfo.cs" />
     <Compile Include="Models\Original\UserShopCar.cs" />
+    <Compile Include="Models\PartialClasses.cs" />
     <Compile Include="Models\Repositiry\OrderdetailRepository.cs" />
     <Compile Include="Models\ViewModels\PandCViewModel.cs" />
     <Compile Include="Models\Product.cs">
@@ -223,6 +225,7 @@
     <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\f1336977429142.jpg" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -306,6 +309,8 @@
     <Content Include="Views\Shared\_AddItemScriptPartial.cshtml" />
     <Content Include="Views\Shop\Show404.cshtml" />
     <Content Include="Views\Shop\ShowPay.cshtml" />
+    <Content Include="Views\Shop\ShowEnd.cshtml" />
+    <Content Include="Views\Shared\_CarNumScriptPartial.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

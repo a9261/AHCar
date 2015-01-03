@@ -1,0 +1,21 @@
+﻿function updateCarNum() {
+
+             $.ajax({
+                url: "/Shop/getProductNum",
+                type: "POST",
+                contentType: "application/x-www-form-urlencoded; charset=UTF-8",
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: "say Hi!",
+                success: function (e) {
+                    console.log("OK");
+                    var result = JSON.parse(e);
+                    console.log(result);
+                   $('.userCar').html(result.AfterCount);
+                },
+                error: function (e) {
+                    console.log("Error");
+                }
+            });
+        }
