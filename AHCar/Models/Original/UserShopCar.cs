@@ -6,6 +6,7 @@ using AHCar.Models.Interface;
 using AHCar.Models.Repositiry;
 using AHCar.Models;
 using System.Transactions;
+using System.Text;
 namespace AHCar.Models.Original
 {
     public class UserShopCar
@@ -28,7 +29,15 @@ namespace AHCar.Models.Original
         {
             //判斷有這項商品
             IProductRepository pRep = new ProductRepository();
-            if (pRep.Get(item.ProductID) != default(Product)) { 
+            if (pRep.Get(item.ProductID) != default(Product)) {
+                //防止數量被前端修改小於0
+                if (item.Amount <= 0)
+                {
+                    item.Amount = 1;
+                }
+                //防止金額被前端修改
+                item.Price = pRep.Get(item.ProductID).Price;
+
                 ShopItems.Add(item);
                 UpdateTotal();
             }
