@@ -12,10 +12,13 @@ namespace AHCar.Models.Original
     {
         private List<ShopItem> ShopItems = new List<ShopItem>();
         public UserInfo Userinfo { get; set; }
+
+        public int Total { get; set; }
         public UserShopCar()
         {
             //初始化UserInfo 
             Userinfo = new UserInfo();
+            Total = 0;
         }
         /// <summary>
         /// 新增商品至購物車
@@ -24,6 +27,7 @@ namespace AHCar.Models.Original
         public void Add(ShopItem item)
         {
             ShopItems.Add(item);
+            UpdateTotal();
         }
         /// <summary>
         /// 從購物車移除商品
@@ -32,6 +36,7 @@ namespace AHCar.Models.Original
         public void Remove(int id)
         {
             ShopItems.Remove(ShopItems.Find(x=>x.ProductID==id));
+            UpdateTotal();
         }
         /// <summary>
         /// 取得購物車所有商品
@@ -41,11 +46,21 @@ namespace AHCar.Models.Original
         {
             return ShopItems;
         }
+        /// <summary>
+        /// 更新購物車總金額
+        /// </summary>
+        public void UpdateTotal()
+        {
+            Total = 0;
+            foreach (var item in ShopItems)
+            {
+                Total += item.Price * item.Amount;
+            }
+        }
         public void SendOrder()
         {
             using (TransactionScope scope = new TransactionScope()) {
                 //新增訂單表頭
-                int Total = 0;
                 Order oHead = new Order();
                 oHead.Discount = 1.0;
                 oHead.isPay = true;
@@ -53,10 +68,6 @@ namespace AHCar.Models.Original
                 oHead.UserName = Userinfo.UserName;
                 oHead.UserPhone = Userinfo.UserPhone;
                 oHead.UserID = Userinfo.UserID;
-                foreach (var item in ShopItems)
-                {
-                    Total += item.Price * item.Amount;
-                }
                 oHead.Total = Total;
                 IOrderRepository oRep = new OrderRepository();
                 oRep.Create(oHead);

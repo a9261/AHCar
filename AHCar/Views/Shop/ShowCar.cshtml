@@ -7,28 +7,127 @@
         .mouseMove {
         }
 
-        .ShowCarbtn:hover {
+        .ShowDelbtn:hover {
             color: #ffffff;
-            background-color: #428bca;
-            border-color: #357ebd;
-          
+            background-color: #d9534f;
+            border-color: #d43f3a;
+        }
+        .ShowUpdatebtn:hover {
+            color: #ffffff;
+            background-color: #5bc0de;
+            border-color: #46b8da;
         }
     </style>
 }
 @section scripts{
     <script type="text/javascript">
         $(function () {
-            $(".ShowCarbtn").click(function (e) {
-    
-                var ProductID = $(this).parent().find("input").val();
-                //TR
-                var node =$(this).parent().parent();
-                removeItem(ProductID,node);
 
+            //按下移除商品時
+            $('.ShowDelbtn').click(function (e) {
+                var ProductID = $(this).parent().find('[name="ProductID"]').val();
+                //要移除的商品節點
+                var node =$(this).parent().parent();
+                removeItem(ProductID,node,true);
             });
+            //修改商品數量時，更新商品購買資訊
+            $('.Amount').change(function (e) {
+                updateItem($(this));
+            });
+            //儲存現有的修改
+            $('.ShowUpdatebtn').click(function (e) {
+                SaveItemInfo();
+            });
+            $('#Buy').click(function (e) {
+                window.location.href = '/Shop/ShowPay';
+            });
+
         });
-        function removeItem(ProductID,node) {
-           
+        function SaveItemInfo() {
+            //更新 => 先刪除舊的，再新增新的。
+            var Item = {
+                ProductID: '0',
+                ProductName: '000',
+                Price: '0',
+                Amount: '0'
+            };
+            $('.CarBody').children().each(function (itemNode) {
+                
+                var PID = $(this).find('[name="ProductID"]').val();
+                var PName = $(this).find('[name="ProductName"]').val();
+                var Price = $(this).find('[name="Price"]').val();
+                var Amount = $(this).find('.Amount').val();
+                Item.ProductID = PID;
+                Item.ProductName = PName;
+                Item.Price = Price;
+                Item.Amount = Amount;
+                removeItem(PID);
+                AddCar(Item);
+            });
+        }
+        function ShowNoty(msg) {
+            var Showmsg = msg || '購物車商品，更新成功!! :) ';
+            //2015.1.3 無法用animated.css做動畫效果
+            //var n = noty({
+            //    theme: 'defaultTheme',
+            //    layout: 'center',
+            //    type: 'information',
+            //    closeWith: 'hover',
+            //    text: 'NOTY - a jquery notification library!',
+            //    animation: {
+            //        open: 'animated bounceInLeft', // Animate.css class names
+            //        close: 'animated bounceOutLeft' // Animate.css class names
+            //    }
+            //});
+            //原始做法
+            var n = noty({
+                theme: 'defaultTheme',
+                layout: 'center',
+                type: 'information',
+                closeWith: 'click',
+                timeout: true,
+                text: Showmsg,
+                animation: {
+                    open: { height: 'toggle' }, // jQuery animate function property object
+                    close: { height: 'toggle' }, // jQuery animate function property object
+                    easing: 'swing', // easing
+                    speed: 500 // opening & closing animation speed
+                }
+            });
+            //設定顯示時間
+            n.setTimeout(1000);
+        }
+        //更新商品購買資訊
+        function updateItem(node) {
+            //單價
+            var Price = $(node).parent().parent().find('.Price').html();
+            //數量
+            var Amount = $(node).val();
+            //總計
+            var Total = Price * Amount;
+            $(node).parent().parent().find('.Total').html(Total);
+        }
+        //新增商品
+        function AddCar(item) {
+            $.ajax({
+                url: "/Shop/AddCar",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: JSON.stringify(item),
+                success: function (e) {
+                    console.log("OK");
+                },
+                error: function (e) {
+                    console.log("Error");
+                }
+            });
+        }
+        //移除商品 ProductID--產品代碼,node--該物件所在的Html node,removeNode--是否同時要移除該Html Node
+        function removeItem(ProductID,node,removeNode) {
+            var removeable = removeNode || false;
             $.ajax({
                 url: "/Shop/RemoveCar",
                 type: "POST",
@@ -40,8 +139,10 @@
                 success: function (e) {
                     console.log("OK");
                     console.log(e);
-                    var targetTR = $(node);
-                    targetTR.remove();
+                    if(removeable){
+                        var targetTR = $(node);
+                        targetTR.remove();
+                    }
                 },
                 error: function (e) {
                     console.log("Error");
@@ -61,22 +162,40 @@
             <th data-field="action">動作</th>
         </tr>
     </thead>
-    <tbody>
+    <tbody class="CarBody">
         @foreach (var item in Model)
         {
             int Total = item.Amount * item.Price;
             <tr>
                 <td>@item.ProductName</td>
-                <td>@item.Price</td>
-                <td>@item.Amount</td>
-                <td>$@Total</td>
+                <td class="Price">@item.Price</td>
+                <td><input class="Amount" type="number" min="1" max="1000" value="@item.Amount" /></td>
+                <td class="Total">$@Total</td>
                 <td>
-                    <button type="button" class="btn btn-default ShowCarbtn">
+                    <button type="button" class="btn btn-default ShowDelbtn animated bounceInRight">
                         <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </button>
-                    <input type="hidden" value="@item.ProductID"/>
+                    <input name="ProductID" type="hidden" value="@item.ProductID" />
+                    <input name="ProductName" type="hidden" value="@item.ProductName" />
+                    <input name="Price" type="hidden" value="@item.Price" />
                 </td>
             </tr>
         }
     </tbody>
+    <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+            <button type="button" class="btn btn-default ShowUpdatebtn animated shake">
+                <span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span>
+                儲存
+            </button>
+            <button id="Buy" type="button" class="btn btn-default ShowUpdatebtn animated shake">
+                <span class="glyphicon glyphicon-arrow-right" aria-hidden="true"></span>
+                結帳去
+            </button>
+        </td>
+    </tr>
 </table>

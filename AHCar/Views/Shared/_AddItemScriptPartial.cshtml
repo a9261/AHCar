@@ -1,0 +1,48 @@
+﻿<script type="text/javascript">
+    //2015.1.3 如果有兩個地方以上需要有加入購物車的功能
+    //就改用這裡
+    $(function () {
+        var Item = {
+            ProductID: '0',
+            ProductName: '000',
+            Price: '0',
+            Amout: '0'
+        };
+
+        $('.showAddBtn').click(function (e) {
+
+            var PID = $(this).parent().find('[name="ProductID"]').val();
+            var PName = $(this).parent().find('[name="ProductName"]').val();
+            var Price = $(this).parent().find('[name="Price"]').val();
+            var Amount = $(this).parent().find('[name="Amount"]').val();
+            Item.ProductID = PID;
+            Item.ProductName = PName;
+            Item.Price = Price;
+            Item.Amout = Amount;
+            AddCar(Item);
+
+        });
+
+    });
+    function AddCar(item) {
+
+        $.ajax({
+            url: "/Shop/AddCar",
+            type: "POST",
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            cache: false,
+            async: false,
+            data: JSON.stringify(item),
+            success: function (e) {
+                console.log("OK");
+                console.log(e);
+                $('.showAddBtn').addClass("animated fadeOutUp");
+            },
+            error: function (e) {
+                console.log("Error");
+            }
+        });
+    }
+</script>
+

@@ -7,6 +7,7 @@ using AHCar.Models.Interface;
 using AHCar.Models.Repositiry;
 using AHCar.Models;
 using AHCar.Models.Original;
+using AHCar.Models.ViewModels;
 using Newtonsoft.Json;
 namespace AHCar.Controllers
 {
@@ -66,7 +67,7 @@ namespace AHCar.Controllers
         public JsonResult AddCar(ShopItem item)
         {
             //2015.1.2
-            //TODO:將相關頁面 建立對應JSON物件，傳至購物車
+            //Done 
             UserShopCar userCar = null;
             msg m = new msg();
             if (Session["Car"] == null)
@@ -79,6 +80,9 @@ namespace AHCar.Controllers
             {
                 userCar = (UserShopCar)Session["Car"];
             }
+            //如果有該商品移除再重新加入
+            userCar.Remove(item.ProductID);
+
             userCar.Add(item);
             m.errorCode = msg.msgCode.sucess;
             return Json(JsonConvert.SerializeObject(m), JsonRequestBehavior.DenyGet);
@@ -87,7 +91,7 @@ namespace AHCar.Controllers
         public JsonResult RemoveCar(int ProductId)
         {
             //2015.1.2
-            //TODO:將相關頁面 對應ProductID，傳至購物車
+            //Done
              msg m = new msg();
             if (Session["Car"] == null)
             {
@@ -119,9 +123,41 @@ namespace AHCar.Controllers
             {
                 userCar = (UserShopCar)Session["Car"];
             }
-            //模擬裡面有一筆資料
+            //模擬裡面有一筆測試資料
             userCar.Add(new ShopItem { ProductID = 0, ProductName = "金色大鉛筆", Price = 999, Amount = 10 });
             return View(userCar.GetAllItems());
+        }
+        //顯示結帳頁面
+        public ActionResult ShowPay(int index=0)
+        {
+            if(Session["Car"] != null){
+                CARandORDERViewModel viewModel = new CARandORDERViewModel();
+                viewModel.UserShopCar = (UserShopCar)Session["Car"];
+                return View(viewModel);
+            }else{
+
+                return RedirectToAction("Show404");
+            }
+        }
+        [HttpPost]
+        //結帳付款
+        public ActionResult ShowPay()
+        {
+            if (Session["Car"] != null)
+            {
+                CARandORDERViewModel viewModel = new CARandORDERViewModel();
+                viewModel.UserShopCar = (UserShopCar)Session["Car"];
+                return View();
+            }
+            else
+            {
+
+                return RedirectToAction("Show404");
+            }
+        }
+        public ActionResult Show404()
+        {
+            return View();
         }
 
 	}

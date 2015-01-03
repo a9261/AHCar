@@ -201,6 +201,7 @@
     <Compile Include="Models\Original\UserInfo.cs" />
     <Compile Include="Models\Original\UserShopCar.cs" />
     <Compile Include="Models\Repositiry\OrderdetailRepository.cs" />
+    <Compile Include="Models\ViewModels\CARandORDERViewModel.cs" />
     <Compile Include="Models\ViewModels\PandCViewModel.cs" />
     <Compile Include="Models\Product.cs">
       <DependentUpon>AHShopping.tt</DependentUpon>
@@ -220,6 +221,7 @@
     <Content Include="App_Data\AHShopping_log.ldf">
       <DependentUpon>AHShopping.mdf</DependentUpon>
     </Content>
+    <Content Include="Content\animate.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -254,6 +256,21 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\noty\jquery.noty.js" />
+    <Content Include="Scripts\noty\layouts\bottom.js" />
+    <Content Include="Scripts\noty\layouts\bottomCenter.js" />
+    <Content Include="Scripts\noty\layouts\bottomLeft.js" />
+    <Content Include="Scripts\noty\layouts\bottomRight.js" />
+    <Content Include="Scripts\noty\layouts\center.js" />
+    <Content Include="Scripts\noty\layouts\centerLeft.js" />
+    <Content Include="Scripts\noty\layouts\centerRight.js" />
+    <Content Include="Scripts\noty\layouts\inline.js" />
+    <Content Include="Scripts\noty\layouts\top.js" />
+    <Content Include="Scripts\noty\layouts\topCenter.js" />
+    <Content Include="Scripts\noty\layouts\topLeft.js" />
+    <Content Include="Scripts\noty\layouts\topRight.js" />
+    <Content Include="Scripts\noty\themes\bootstrap.js" />
+    <Content Include="Scripts\noty\themes\default.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\_references.js" />
@@ -287,6 +304,9 @@
     <Content Include="Views\Shop\ShowDetail.cshtml" />
     <Content Include="Views\Shop\ShowCar.cshtml" />
     <Content Include="Views\ProductMange\CreateProduct.cshtml" />
+    <Content Include="Views\Shared\_AddItemScriptPartial.cshtml" />
+    <Content Include="Views\Shop\ShowPay.cshtml" />
+    <Content Include="Views\Shop\Show404.cshtml" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>

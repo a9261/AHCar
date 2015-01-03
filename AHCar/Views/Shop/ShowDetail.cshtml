@@ -1,32 +1,121 @@
 ﻿@model AHCar.Models.PandCViewModel
+@using AHCar.Models.Original;
 @{
     ViewBag.Title = "ShowDetail";
 }
-<h2>ShowDetail</h2>
-<div class="row row-offcanvas row-offcanvas-right">
-    <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
-        <div id="Link" class="list-group">
-            @Html.ActionLink("所有商品", "Index", "Shop", null, new { @class = "list-group-item" })
-            @foreach (var item in Model.Cateogrys)
+@section css{
+    <style type="text/css">
+        .showAddBtn:hover {
+            color: #ffffff;
+            background-color: #5cb85c;
+            border-color: #4cae4c;
+        }
+        .Amount {
+            width: 60px;
+        }
+    </style>
+}
+@section scripts{
+    <script type="text/javascript">
+        $(function () {
+
+            var Item = {
+                ProductID: '0',
+                ProductName: '000',
+                Price: '0',
+                Amount: '0'
+            };
+
+            $('.showAddBtn').click(function (e) {
+
+                var PID = $(this).parent().find('[name="ProductID"]').val();
+                var PName = $(this).parent().find('[name="ProductName"]').val();
+                var Price = $(this).parent().find('[name="Price"]').val();
+                var Amount = $('.Amount').val();
+                Item.ProductID = PID;
+                Item.ProductName = PName;
+                Item.Price = Price;
+                Item.Amount = Amount;
+                AddCar(Item);
+
+            });
+
+            $('.Amount').change(function (e) {
+                var Amount = $(this).val();
+                var Price = $(this).parent().find('[name="Price"]').val();
+                var Total = Amount * Price;
+                $('.Total').html(Total);
+
+            });
+        });
+        function AddCar(item) {
+            $.ajax({
+                url: "/Shop/AddCar",
+                type: "POST",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                cache: false,
+                async: false,
+                data: JSON.stringify(item),
+                success: function (e) {
+                    console.log("OK");
+                    $('.showAddBtn').addClass("animated fadeOutUp")
+                    .addClass('animated fadeInUp');
+                },
+                error: function (e) {
+                    console.log("Error");
+                }
+            });
+        }
+    </script>
+}
+    <h2>商品內容</h2>
+    <div class="row row-offcanvas row-offcanvas-right">
+        <div class="col-xs-6 col-sm-3 sidebar-offcanvas" id="sidebar">
+            <div id="Link" class="list-group">
+                @Html.ActionLink("所有商品", "Index", "Shop", null, new { @class = "list-group-item" })
+                @foreach (var item in Model.Cateogrys)
             {
                 @Html.ActionLink(item.CategoryName, "Index", "Shop", new { CategoryID = item.CategoryID }, new { @class = "list-group-item" })
             }
-        </div>
-    </div><!--/.sidebar-offcanvas-->
-    <div class="col-xs-12 col-sm-9">
-        <div class="row">
-            @foreach (var item in Model.Producs)
+            </div>
+        </div><!--/.sidebar-offcanvas-->
+        <div class="col-xs-12 col-sm-9">
+            <div class="row">
+
+
+                @foreach (var item in Model.Producs)
             {
                 <div class="col-xs-6 col-lg-4">
-                    <h2>@item.ProductName ($@item.Price)</h2>
-                    <p>@item.ProductDescription</p>
-                    <p>
-                        @Html.BeginForm(){
-                          @Html.ActionLink("加入購物車", "ShowDetail", "Shop", null, new { @class = "btn btn-default", @role = "button" })
-                        }
-                    </p>
-                </div><!--/.col-xs-6.col-lg-4-->
+                        <h2>@item.ProductName ($@item.Price)</h2>
+                        <p>@item.ProductDescription</p>
+                        <p>
+                        @* 改Ajax *@
+                        <input name="ProductID" type="hidden" value="@item.ProductID" />
+                        <input name="ProductName" type="hidden" value="@item.ProductName" />
+                        <input name="Price" type="hidden" value="@item.Price" />
+                        <label>數量</label><input name="Amount" class="Amount" type="number" min="1" max="1000" value="1" />
+                        <label>小計</label><label class="Total">@item.Price</label>
+                        <br />
+                        <label>加入購物車</label>
+                        <button type="button" class="btn btn-default showAddBtn">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                        @* 2015.1.3 測試Form送至Controller Done~ *@
+                        @*@using (Html.BeginForm("AddCar", "Shop")) {
+                        <input name="ProductID" type="hidden" value="@item.ProductID" />
+                        <input name="ProductName" type="hidden" value="@item.ProductName" />
+                        <input name="Price" type="hidden" value="@item.Price"/>
+                        <label>數量</label><input name="Amount" type="number" min="1" max="1000" />
+
+                        <button type="submit" class="btn btn-default showAddBtn">
+                            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+                        </button>
+                    }*@
+                        </p>
+                    </div><!--/.col-xs-6.col-lg-4-->
             }
-        </div><!--/row-->
+
+            </div><!--/row-->
+        </div>
     </div>
-</div>
