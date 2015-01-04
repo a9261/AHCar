@@ -20,7 +20,6 @@ namespace AHCar.Controllers
         //2015.1.2 Done
         public ActionResult Index(int CategoryID=0)
         {
-            
             //設定所有類別與特定類別商品資訊
             IProductRepository pRep = new ProductRepository();
             IProductCategoryRepository cRep = new ProductCategoryRepository();
